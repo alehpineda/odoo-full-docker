@@ -1,5 +1,6 @@
 FROM ubuntu:16.04
 LABEL maintainer="Luis Triana <luis.triana@jarsa.com.mx>"
+LABEL maintainer="Alejandro H. Pineda <ciinn.mexico@gmail.com>"
 
 RUN echo 'APT::Get::Assume-Yes "true";' >> /etc/apt/apt.conf \
     && echo 'APT::Get::allow "true";' >> /etc/apt/apt.conf
@@ -128,11 +129,10 @@ RUN /etc/init.d/postgresql start && \
 USER odoo
 
 # Expose ports for odoo, ssh, and postgres
-EXPOSE 8069 8072 22 5432
+EXPOSE 8069 8071 8072 22 5432
 
 # Start ssh, postgres, odoo-server
-CMD [ "service","ssh","start" ]
-CMD [ "service","postgres","start" ]
-CMD [ "service","odoo-server","start" ]
-
-CMD ["bash"]
+CMD sudo service ssh start && \
+    sudo service postgresql start && \
+    sudo service odoo-server start && \
+    bash
